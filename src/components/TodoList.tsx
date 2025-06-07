@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Todo as TodoType } from '../types/Todo';
 import Todo from './Todo';
 import TodoForm from './TodoForm';
 
+const STORAGE_KEY = 'todos';
+
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<TodoType[]>([]);
+  // Laad todos uit localStorage bij initialisatie
+  const [todos, setTodos] = useState<TodoType[]>(() => {
+    const savedTodos = localStorage.getItem(STORAGE_KEY);
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  });
+
+  // Update localStorage wanneer todos veranderen
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = (text: string) => {
     const newTodo: TodoType = {
@@ -40,6 +51,13 @@ const TodoList: React.FC = () => {
             onDelete={deleteTodo}
           />
         ))}
+      </div>
+      <div style={{ marginTop: '20px', color: '#666' }}>
+        {todos.length === 0 ? (
+          <p>Geen taken toegevoegd</p>
+        ) : (
+          <p>Aantal taken: {todos.length}</p>
+        )}
       </div>
     </div>
   );

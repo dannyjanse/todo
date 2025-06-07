@@ -1,46 +1,142 @@
-# Getting Started with Create React App
+# Todo App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Een React TypeScript applicatie voor het beheren van taken, met persistentie via localStorage en gehost op GitHub Pages.
 
-## Available Scripts
+## Stap-voor-stap Ontwikkelproces
 
-In the project directory, you can run:
+### 1. Project Initialisatie
 
-### `npm start`
+```bash
+npx create-react-app todo-app --template typescript
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Dit commando creëert de basis projectstructuur:
+- `/src` - Broncode directory
+  - `index.tsx` - Het startpunt van de applicatie
+  - `App.tsx` - De hoofdcomponent
+  - `react-app-env.d.ts` - TypeScript declaratie bestand
+- `/public` - Statische bestanden
+  - `index.html` - De HTML template
+  - `manifest.json` - Web app manifest
+  - `favicon.ico` - Website icoon
+- `package.json` - Project configuratie en dependencies
+- `tsconfig.json` - TypeScript configuratie
+- `.gitignore` - Git ignore configuratie
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 2. Component Structuur Opzetten
 
-### `npm test`
+Nieuwe bestanden gecreëerd in `/src`:
+- `/types`
+  - `Todo.ts` - Interface voor Todo items
+    ```typescript
+    export interface Todo {
+      id: number;
+      text: string;
+      completed: boolean;
+    }
+    ```
+- `/components`
+  - `TodoList.tsx` - Hoofdcomponent voor de todo lijst
+  - `Todo.tsx` - Component voor individuele todo items
+  - `TodoForm.tsx` - Formulier voor nieuwe todos
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. GitHub Pages Deployment Setup
 
-### `npm run build`
+```bash
+npm install gh-pages --save-dev
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Package.json aanpassingen:
+```json
+{
+  "homepage": "https://[username].github.io/todo",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  }
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 4. Development Server Starten
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
+Start de ontwikkelserver op http://localhost:3000:
+- Hot reloading voor directe updates
+- TypeScript compilatie in watch mode
+- Console output voor errors en warnings
 
-### `npm run eject`
+### 5. Productie Build en Deployment
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm run deploy
+```
+Dit voert automatisch twee stappen uit:
+1. `npm run predeploy` (npm run build):
+   - Bundelt de applicatie
+   - Minificeert code
+   - Optimaliseert assets
+   - Creëert `/build` directory
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. `gh-pages -d build`:
+   - Pusht de build naar gh-pages branch
+   - Maakt de app beschikbaar op GitHub Pages
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Belangrijke NPM Commando's
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Development Commando's
+
+#### `npm start`
+- Start lokale development server
+- Opent browser op http://localhost:3000
+- Activeert hot reloading
+- Toont lint errors in console
+
+#### `npm test`
+- Start test runner in watch mode
+- Voert unit tests uit
+- Toont test coverage
+
+#### `npm run build`
+- Creëert geoptimaliseerde productie build
+- Output in `/build` directory
+- Minificeert en bundelt alle bestanden
+
+#### `npm run deploy`
+- Bouwt de applicatie
+- Deployt naar GitHub Pages
+- Maakt app publiek toegankelijk
+
+#### `npm run eject`
+⚠️ **Let op: Onomkeerbare actie!**
+- Geeft volledige controle over configuratie
+- Verwijdert Create React App abstractie
+- Alleen gebruiken indien strikt noodzakelijk
+
+## Applicatie Functionaliteit
+
+De Todo applicatie biedt de volgende features:
+- Toevoegen van nieuwe taken
+- Markeren van taken als voltooid
+- Verwijderen van taken
+- Persistentie via localStorage
+- Responsive design
+- Taak counter
+- Leeg-staat bericht
+
+## GitHub Pages Beperkingen
+
+Als statische hosting platform heeft GitHub Pages enkele beperkingen:
+- Alleen statische content (HTML, CSS, JavaScript)
+- Geen server-side functionaliteit
+- Repository limiet van 1GB
+- Bandbreedte limiet van 100GB/maand
+- Build tijd maximaal 10 minuten
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [Create React App documentatie](https://facebook.github.io/create-react-app/docs/getting-started)
+- [React documentatie](https://reactjs.org/)
+- [TypeScript documentatie](https://www.typescriptlang.org/)
+- [GitHub Pages documentatie](https://docs.github.com/en/pages)
